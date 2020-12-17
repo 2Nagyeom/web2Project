@@ -6,7 +6,122 @@
 <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 </head>
 <body>
-    
+<script>
+    var phoChek = 0
+        $(document).ready(function() {
+            $("#checkPrice").click(function(){
+                var ran = Math.floor( ( Math.random() * (100 - 1) + 1 ) )
+                $('#price').val(ran+",000");
+                $('#price1').val(ran+",000");
+            })
+
+            $("#btn1").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-1");
+                }else{
+                    $("#phonenum").val(curr+"1");
+                }
+            })
+            $("#btn2").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-2");
+                }else{
+                    $("#phonenum").val(curr+"2");}
+            })
+            $("#btn3").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-3");
+                }else{
+                    $("#phonenum").val(curr+"3");}
+            })
+            $("#btn4").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-4");
+                }else{
+                    $("#phonenum").val(curr+"4");}
+            })
+            $("#btn5").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-5");
+                }else{
+                    $("#phonenum").val(curr+"5");}
+            })
+            $("#btn6").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-6");
+                }else{
+                    $("#phonenum").val(curr+"6");}
+            })
+            $("#btn7").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-7");
+                }else{
+                    $("#phonenum").val(curr+"7");}
+            })
+            $("#btn8").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-8");
+                }else{
+                    $("#phonenum").val(curr+"8");}
+            })
+            $("#btn9").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-9");
+                }else{
+                    $("#phonenum").val(curr+"9");}
+            })
+            $("#btn0").click(function(){
+                phoChek +=1;
+                var curr = $("#phonenum").val();
+                if(phoChek == 4 || phoChek == 8){
+                    $("#phonenum").val(curr+"-0");
+                }else{
+                    $("#phonenum").val(curr+"0");}
+            })
+            
+            $("#btnE").click(function(){
+                $("#phonenum").val("");
+            })
+
+            $("#btnC").click(function(){
+                var curr = String($("#phonenum").val());
+                if(phoChek == 4 || phoChek == 8){
+                    curr = curr.slice(0,-2);
+                    $("#phonenum").val(curr);
+                }else{
+                    curr = curr.slice(0,-1);
+                    $("#phonenum").val(curr);
+                }
+                phoChek -= 1
+            })
+
+            $("#saveMile").click(function(){
+                var curr = $("#phonenum").val();
+                var curPrice =  $('#price').val();
+                
+
+            })
+            
+        });
+</script>
 <!-- Start of second page -->
 <div data-role="page" id="home">
    <div data-role="header">
@@ -14,11 +129,12 @@
         <a href="#phone" class="ui-btn-right" data-icon="arrow-r" data-transition="slideup">번호 입력</a>   
    </div><!-- /header -->
    <div role="main" class="ui-content">
-        <input type="text" style="width: min-content;">
-        <a type="button">결재금액 확인</a>
+        <input type="text" id="price" style="width: min-content;" disabled placeholder="확인 버튼을 눌러주세요.">
+        <button id="checkPrice">결재금액 확인</a>
    </div><!-- /content -->
    <div data-role="footer" data-position="fixed">
-      <h4>enbi's caffee</h4>
+        <h4>enbi's caffee</h4>
+        <a href="#admin" class="ui-btn-right" data-icon="arrow" data-transition="slideup">관리자 페이지</a>   
    </div><!-- /footer -->
 </div><!-- /page -->
 
@@ -27,10 +143,10 @@
    <div data-role="header" data-tema="b">
         <a href="#home" data-icon="arrow-l" data-transition="slidedown">이전화면</a>   
         <h1>전화번호 입력</h1>
-        <a href="#home" data-icon="arrow-r">적립 건너뛰기</a>   
+        <a href="#final" data-icon="arrow-r">결재 화면</a>   
    </div><!-- /header -->
    <div role="main" class="ui-content">
-        <input type="text" style="width: fit-content;">
+        <input type="text" id="phonenum" style="width: fit-content;" disabled placeholder="전화번호를 입력해주세요.">
 
         <div class="ui-grid-c" style="width: 130%;">
                 <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:80px" id="btn1">1</div></div>
@@ -42,31 +158,59 @@
                 <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:80px" id="btn7">7</div></div>
                 <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:80px" id="btn8">8</div></div>
                 <div class="ui-block-c"><div class="ui-bar ui-bar-a" style="height:80px" id="btn9">9</div></div>
-                <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:80px" id="btnE">지우기</div></div>
+                <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:80px" id="btnE">초기화</div></div>
                 <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:80px" id="btn0">0</div></div>
-                <div class="ui-block-c"><div class="ui-bar ui-bar-a" style="height:80px" id="btnOK">확인</div></div>
-            </div><!-- /grid-c -->
+                <div class="ui-block-c"><div class="ui-bar ui-bar-a" style="height:80px" id="btnC">지우기</div></div>
+        </div><!-- /grid-c -->
     </div><!-- /content -->
    <div data-role="footer" data-position="fixed">
       <h4>enbi's caffee</h4>
    </div><!-- /footer -->
 </div><!-- /page -->
 
-
-
-<!-- Start of second page -->
-<div data-role="page" id="bar">
+<div data-role="page" id="final">
    <div data-role="header">
-      <h1>Bar</h1>
+        <h1>마일리지 확인</h1>
+        <a href="#phone" data-icon="arrow-1" data-transition="slideup">이전화면</a>   
    </div><!-- /header -->
    <div role="main" class="ui-content">
-      <p>I'm the second in the source order so I'm hidden when the page loads. I'm just shown if a link that references my id is beeing clicked.</p>
-      <p><a href="#foo">Back to foo</a></p>
+        <h4>결재금액</h4>
+        <input type="text" id="price1" style="width: min-content;" disabled>
+        <h4>전화번호</h4>
+        <input type="text" id="phonenum1" style="width: min-content;" disabled>
+
+        <a type="button" href="#home" id="saveMile">마일리지 저장하기</a>
    </div><!-- /content -->
-   <div data-role="footer">
-      <h4>Page Footer</h4>
+   <div data-role="footer" data-position="fixed">
+      <h4>enbi's caffee</h4>
    </div><!-- /footer -->
 </div><!-- /page -->
+
+
+<div data-role="page" id="admin">
+    <div data-role="header">
+        <h1>관리자 페이지</h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <input type="text" id="admincheck">
+        <button id="adcheckbutt">관리자 확인</button>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>enbi's caffee</h4>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
     
 </body>
 </html>
