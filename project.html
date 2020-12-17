@@ -4,13 +4,26 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+
+<style>
+    table {
+      width: 100%;
+      border-top: 1px solid #444444;
+      border-collapse: collapse;
+    }
+    th, td {
+      border-bottom: 1px solid #444444;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
 <script>
     var phoChek = 0
+    var ran
         $(document).ready(function() {
             $("#checkPrice").click(function(){
-                var ran = Math.floor( ( Math.random() * (100 - 1) + 1 ) )
+                ran = Math.floor( ( Math.random() * (100 - 1) + 1 ) )
                 $('#price').val(ran+",000");
                 $('#price1').val(ran+",000");
             })
@@ -99,6 +112,7 @@
             
             $("#btnE").click(function(){
                 $("#phonenum").val("");
+                phoChek = 0
             })
 
             $("#btnC").click(function(){
@@ -113,39 +127,77 @@
                 phoChek -= 1
             })
 
+            $("#phoneCopy").click(function(){
+                $("#phonenum1").val($("#phonenum").val());
+                phoChek = 0
+            })
+
+
+
             $("#saveMile").click(function(){
                 var curr = $("#phonenum").val();
-                var curPrice =  $('#price').val();
-                
+                var curPrice =  ran;
+                var mileEE = ran*10;
+                var now = new Date();
+
+                if(localStorage.getItem(curr)==null){
+                    alert("처음 구매하시는군요! 반갑습니다!")
+                    localStorage.setItem(curr, JSON.stringify({ toMile : mileEE, toPrice : curPrice, day : now.toLocaleString(), price : curPrice, num : curr, count : 1}));
+                    alert("구입해주셔서 감사합니다. 총 마일리지 적립은 "+mileEE+"점이고 총 금액은 "+curPrice+",000원 입니다.")
+                    $("#phonenum1").val("");
+                    $("#phonenum").val("");
+                    $('#price').val("");
+                    $('#price1').val("");
+                }else{
+                    var a = JSON.parse(localStorage.getItem(curr));
+                    var tomile = a.toMile;
+                    var toprice = a.toPrice;
+                    var curcount = a.count;
+                    curcount += 1
+                    tomile = Number(tomile)+mileEE;
+                    toprice = Number(toprice)+Number(curPrice);
+
+                    localStorage.setItem(curr, JSON.stringify({ toMile : tomile, toPrice : toprice, day : now.toLocaleString(), price : curPrice, num : curr, count : curcount}))
+                    alert("구입해주셔서 감사합니다. 현재까지 결제 횟수는 "+ curcount +"회이고, 총 마일리지 적립은 "+tomile+"점, 총 금액은 "+toprice+",000원 입니다.")
+                    $("#phonenum1").val("");
+                    $("#phonenum").val("");
+                    $('#price').val("");
+                    $('#price1').val("");
+                }
 
             })
+
+            $("#reset").click(function(){
+                localStorage.clear();
+            })
+            
             
         });
 </script>
-<!-- Start of second page -->
+
 <div data-role="page" id="home">
-   <div data-role="header">
+	<div data-role="header">	
         <h1>구입금액 확인</h1>
-        <a href="#phone" class="ui-btn-right" data-icon="arrow-r" data-transition="slideup">번호 입력</a>   
-   </div><!-- /header -->
-   <div role="main" class="ui-content">
+        <a href="#phone" class="ui-btn-right" data-icon="arrow-r" data-transition="slideup">번호 입력</a>	
+	</div>
+	<div role="main" class="ui-content">
         <input type="text" id="price" style="width: min-content;" disabled placeholder="확인 버튼을 눌러주세요.">
         <button id="checkPrice">결재금액 확인</a>
-   </div><!-- /content -->
-   <div data-role="footer" data-position="fixed">
+	</div>
+	<div data-role="footer" data-position="fixed">
         <h4>enbi's caffee</h4>
-        <a href="#admin" class="ui-btn-right" data-icon="arrow" data-transition="slideup">관리자 페이지</a>   
-   </div><!-- /footer -->
-</div><!-- /page -->
+        <a href="#admin" class="ui-btn-right" data-icon="arrow" data-transition="slideup">관리자 페이지</a>	
+	</div>
+</div>
 
 
 <div data-role="page" id="phone">
-   <div data-role="header" data-tema="b">
-        <a href="#home" data-icon="arrow-l" data-transition="slidedown">이전화면</a>   
+	<div data-role="header" data-tema="b">
+        <a href="#home" data-icon="arrow-l" data-transition="slidedown">이전화면</a>	
         <h1>전화번호 입력</h1>
-        <a href="#final" data-icon="arrow-r">결재 화면</a>   
-   </div><!-- /header -->
-   <div role="main" class="ui-content">
+        <a href="#final" id="phoneCopy" data-icon="arrow-r">결재 화면</a>	
+	</div>
+	<div role="main" class="ui-content">
         <input type="text" id="phonenum" style="width: fit-content;" disabled placeholder="전화번호를 입력해주세요.">
 
         <div class="ui-grid-c" style="width: 130%;">
@@ -161,39 +213,50 @@
                 <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:80px" id="btnE">초기화</div></div>
                 <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:80px" id="btn0">0</div></div>
                 <div class="ui-block-c"><div class="ui-bar ui-bar-a" style="height:80px" id="btnC">지우기</div></div>
-        </div><!-- /grid-c -->
-    </div><!-- /content -->
-   <div data-role="footer" data-position="fixed">
-      <h4>enbi's caffee</h4>
-   </div><!-- /footer -->
-</div><!-- /page -->
+        </div>
+    </div>
+	<div data-role="footer" data-position="fixed">
+		<h4>enbi's caffee</h4>
+	</div>
+</div>
 
 <div data-role="page" id="final">
-   <div data-role="header">
+	<div data-role="header">
         <h1>마일리지 확인</h1>
-        <a href="#phone" data-icon="arrow-1" data-transition="slideup">이전화면</a>   
-   </div><!-- /header -->
-   <div role="main" class="ui-content">
+        <a href="#phone" data-icon="arrow-1" data-transition="slideup">이전화면</a>	
+	</div>
+	<div role="main" class="ui-content">
         <h4>결재금액</h4>
         <input type="text" id="price1" style="width: min-content;" disabled>
         <h4>전화번호</h4>
         <input type="text" id="phonenum1" style="width: min-content;" disabled>
 
         <a type="button" href="#home" id="saveMile">마일리지 저장하기</a>
-   </div><!-- /content -->
-   <div data-role="footer" data-position="fixed">
-      <h4>enbi's caffee</h4>
-   </div><!-- /footer -->
+	</div><!-- /content -->
+	<div data-role="footer" data-position="fixed">
+		<h4>enbi's caffee</h4>
+	</div><!-- /footer -->
 </div><!-- /page -->
 
 
 <div data-role="page" id="admin">
-    <div data-role="header">
+    <div data-role="header" >
+        <a href="#home" data-icon="arrow-1" data-transition="slideup">홈화면으로</a>
         <h1>관리자 페이지</h1>
+        <a class="ui-btn-right" data-icon="arrow" id="reset">전체 정보 초기화</a>
     </div>
     <div data-role="main" class="ui-content">
-        <input type="text" id="admincheck">
-        <button id="adcheckbutt">관리자 확인</button>
+        <table id="adminTable">
+            <tr>
+                <td>전화번호</td>
+                <td>총 마일리지</td>
+                <td>총 결제금액</td>
+                <td>결제 횟수</td>
+                <td>최근 결제일</td>
+                <td>최근 결제 금액</td>
+            </tr>
+            <tbody></tbody>
+        </table>
     </div>
     <div data-role="footer" data-position="fixed">
         <h4>enbi's caffee</h4>
@@ -201,14 +264,15 @@
 
 </div>
 
+<script>
+    var len = localStorage.length;
+    var currJson;
+    for(var i = 0; i<len; i++){
+        currJson =  JSON.parse(localStorage.getItem(localStorage.key(i)));
+        $("#adminTable > tbody:last").append("<tr><td>"+currJson.num+"</td><td>"+currJson.toMile+"</td><td>"+currJson.toPrice+",000</td><td>"+currJson.count+"</td><td>"+currJson.day+"</td><td>"+currJson.price+",000</td></tr>")
+    }
 
-
-
-
-
-
-
-
+</script>
 
 
     
